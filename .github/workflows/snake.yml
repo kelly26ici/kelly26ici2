@@ -1,9 +1,16 @@
 name: Generate Snake
 
 on:
+  push:
+    branches: [master]
+    paths-ignore:
+      - 'github-contribution-grid-snake.svg'
   schedule:
     - cron: "29 12 * * *"
   workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   build:
@@ -14,10 +21,10 @@ jobs:
       - uses: Platane/snk@main
         id: snake-gif
         with:
-          github_user_name: JayantGoel001
+          github_user_name: kelly26ici
           outputs: dist/github-contribution-grid-snake.svg
         env:
-          GITHUB_TOKEN: ${{ secrets.METRICS_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.METRICS_TOKEN || secrets.GITHUB_TOKEN }}
       - uses: crazy-max/ghaction-github-pages@v3.1.0
         with:
           target_branch: master

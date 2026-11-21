@@ -1,8 +1,16 @@
 name: GitHub metrics
 on:
+  push:
+    branches: [master]
+    paths-ignore:
+      - 'metrics.svg'
+      - 'metrics.detailed.svg'
   schedule:
     - cron: "21 6,18 * * *"
   workflow_dispatch:
+permissions:
+  contents: write
+
 jobs:
 
   github-metrics-personal:
@@ -10,10 +18,10 @@ jobs:
     steps:
   
       - name: Personal metrics
-        uses: JayantGoel001/metrics@master
+        uses: lowlighter/metrics@master
         with:
           filename: metrics.svg
-          token: ${{ secrets.METRICS_TOKEN }}
+          token: ${{ secrets.METRICS_TOKEN || secrets.GITHUB_TOKEN }}
           committer_token: ${{ secrets.GITHUB_TOKEN }}
           base: "header, activity, community, repositories"
           plugin_introduction: yes
@@ -28,7 +36,7 @@ jobs:
           plugin_habits_from: 200
           plugin_habits_facts: yes
           plugin_habits_charts: yes
-          config_timezone: Asia/Kolkata
+          config_timezone: Africa/Nairobi
           plugin_stars: yes
           plugin_stars_limit: 4
           plugin_stargazers: yes
@@ -59,10 +67,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:      
       - name: Personal metrics (detailed)
-        uses: JayantGoel001/metrics@master
+        uses: lowlighter/metrics@master
         with:
           filename: metrics.detailed.svg
-          token: ${{ secrets.METRICS_TOKEN }}
+          token: ${{ secrets.METRICS_TOKEN || secrets.GITHUB_TOKEN }}
           committer_token: ${{ secrets.GITHUB_TOKEN }}
           base: "metadata"
           plugin_gists: yes
@@ -80,8 +88,10 @@ jobs:
           plugin_posts_limit: 2
           plugin_posts_descriptions: yes
           plugin_posts_covers: yes
-          plugin_posts_user: JayantGoel001
-          config_timezone: Asia/Kolkata
+          plugin_posts_user: kelly26ici
+          plugin_leetcode_user: kelly26ici
+          plugin_pagespeed_url: https://kelly26ici.github.io
+          config_timezone: Africa/Nairobi
           plugin_languages_colors: "rainbow"
           plugin_languages_details: bytes-size, percentage
           plugin_leetcode: yes

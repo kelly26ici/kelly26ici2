@@ -1,9 +1,20 @@
 name: Waka Readme
 
 on:
+  push:
+    branches: [master]
+    paths-ignore:
+      - '.github/workflows/**'
+      - 'metrics.svg'
+      - 'metrics.detailed.svg'
+      - 'profile-3d-contrib/**'
+      - 'github-contribution-grid-snake.svg'
   schedule:
     - cron: '20 00 * * *'
   workflow_dispatch:
+permissions:
+  contents: write
+
 jobs:
   update-readme:
     name: Update Readme with Metrics
@@ -12,7 +23,8 @@ jobs:
       - uses: anmol098/waka-readme-stats@master
         with:
           WAKATIME_API_KEY: ${{ secrets.WAKATIME_API_KEY }}
-          GH_TOKEN: ${{ secrets.METRICS_TOKEN   }}
+          GH_TOKEN: ${{ secrets.METRICS_TOKEN || secrets.GITHUB_TOKEN }}
+          PUSH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SHOW_LINES_OF_CODE : "True"
           SHOW_PROFILE_VIEWS : "False"
           SHOW_LOC_CHART : "False"
